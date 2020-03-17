@@ -63,7 +63,6 @@ const requests = {
 	postForm: (url: string, file: Blob) => {
 		let formData = new FormData();
 		formData.append('File', file);
-
 		return axios
 			.post(url, formData, {
 				headers: { 'Content-type': 'multipart/form-data' }
@@ -93,7 +92,10 @@ const Profiles = {
 	uploadPhoto: (photo: Blob): Promise<IPhoto> => requests.postForm(`/photos`, photo),
 	setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
 	deletePhoto: (id: string) => requests.del(`/photos/${id}`),
-	updateProfile: (profile: Partial<IProfile>) => requests.put(`/profiles`, profile)
+	updateProfile: (profile: Partial<IProfile>) => requests.put(`/profiles`, profile),
+	follow: (username: string) => requests.post(`/profiles/${username}/follow`, {}),
+	unfollow: (username: string) => requests.del(`/profiles/${username}/follow`),
+	listFollowings: (username: string, predicate: string) => requests.get(`/profiles/${username}/follow?predicate=${predicate}`)
 };
 
 export default {
